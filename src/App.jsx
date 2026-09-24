@@ -11,7 +11,7 @@ import SearchModal from "./components/SearchModal";
 import CheckoutModal from "./components/CheckoutModal";
 
 // Pages
-import Home from "./Home";
+import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/Productdetails";
 import Cart from "./pages/Cart";

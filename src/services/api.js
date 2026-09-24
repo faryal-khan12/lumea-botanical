@@ -1,4 +1,7 @@
+
 // LUMÉA API & Data Services — 100% Pure LUMÉA Botanical Apothecary Catalog
+const imagePath = (filename) =>
+  `${import.meta.env.BASE_URL}images/${filename}`;
 
 export const LUMEA_SIGNATURE_PRODUCTS = [
   {
@@ -19,8 +22,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["German Chamomile", "Organic Green Tea Extract", "Plant Squalane", "Glycerin"],
     ritual: "Massage 1-2 pumps onto damp skin in gentle circular motions for 60 seconds. Rinse thoroughly with lukewarm water. Use morning and evening.",
     clinicalResults: "97% reported cleaner, calmer skin without tightness in a 4-week trial.",
-    image: "/images/lumea_cleanser.jpg",
-    images: ["/images/lumea_cleanser.jpg", "/images/lumea_hero.jpg"],
+   image: imagePath("lumea_cleanser.jpg"),
+images: [imagePath("lumea_cleanser.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Amina K.", rating: 5, date: "2 days ago", comment: "The softest cleanser I have ever used. My skin never feels stripped or dry!", verified: true },
       { id: 2, author: "Sophia R.", rating: 5, date: "1 week ago", comment: "Leaves my face feeling like silk. Lovely subtle botanical scent.", verified: true },
@@ -45,8 +48,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["Triple Hyaluronic Acid Complex (2%)", "Pro-Vitamin B5 (Panthenol)", "Snow Mushroom Extract", "Aloe Barbadensis"],
     ritual: "Dispense 3-4 drops onto clean, damp skin. Gently press into face, neck, and décolletage before applying creams or face oils.",
     clinicalResults: "99% noticed instant hydration; 94% saw reduced fine dehydration lines within 14 days.",
-    image: "/images/lumea_serum.jpg",
-    images: ["/images/lumea_serum.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_serum.jpg"),
+images: [imagePath("lumea_serum.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Fatima Z.", rating: 5, date: "Yesterday", comment: "Instant plumpness and zero stickiness. The gold standard for hydrating serums!", verified: true },
       { id: 2, author: "Clara T.", rating: 5, date: "3 days ago", comment: "Saved my winter dry patches in less than a week.", verified: true }
@@ -70,8 +73,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["Ceramide Complex (NP, AP, EOP)", "Colloidal Oat Extract", "Shea Butter", "Niacinamide (3%)"],
     ritual: "Warm a pea-sized amount between fingertips and gently press over face and neck. Ideal for morning barrier defense and nighttime repair.",
     clinicalResults: "Clinically proven to strengthen skin barrier resilience by 72% over 21 days.",
-    image: "/images/lumea_cream.jpg",
-    images: ["/images/lumea_cream.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_cream.jpg"),
+images: [imagePath("lumea_cream.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Layla N.", rating: 5, date: "5 days ago", comment: "Rich without feeling heavy or causing breakouts. Absorbs wonderfully.", verified: true },
       { id: 2, author: "Hannah B.", rating: 4, date: "2 weeks ago", comment: "Calmed my redness and irritation almost overnight.", verified: true }
@@ -95,8 +98,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["Cold-Pressed Virgin Rosehip Seed Oil", "Evening Primrose Oil", "Tocopherol (Vitamin E)", "Organic Jojoba"],
     ritual: "Warm 2-3 drops in palms and press gently into skin as the final step of your nighttime routine, or blend a single drop into foundation.",
     clinicalResults: "96% noticed an immediate healthy radiance without greasy residue.",
-    image: "/images/lumea_oil.jpg",
-    images: ["/images/lumea_oil.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_oil.jpg"),
+images: [imagePath("lumea_oil.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Mariam S.", rating: 5, date: "1 week ago", comment: "Liquid gold! Smells divine and leaves a breathtaking morning glow.", verified: true }
     ]
@@ -119,8 +122,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["Damask Rose Water", "Cucumber Distillate", "Organic Prebiotic Inulin", "Witch Hazel"],
     ritual: "Close eyes and mist liberally over face and neck after cleansing, throughout the day to rehydrate, or after makeup as a dewy setting veil.",
     clinicalResults: "100% experienced immediate cooling refresh and pore refinement.",
-    image: "/images/lumea_mist.jpg",
-    images: ["/images/lumea_mist.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_mist.jpg"),
+images: [imagePath("lumea_mist.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Zara D.", rating: 5, date: "3 days ago", comment: "The fine mist spray is so luxurious. I keep one at my desk and one in my bag!", verified: true }
     ]
@@ -143,8 +146,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["French Green Clay", "Colloidal Oat Extract", "Spirulina", "Shea Butter", "Botanical Squalane"],
     ritual: "Apply an even layer to clean skin avoiding eyes and lips. Leave on for 10-15 minutes, then rinse gently with lukewarm water and a soft cloth.",
     clinicalResults: "95% experienced refined pores, reduced redness, and deeply soft skin after first use.",
-    image: "/images/lumea_mask.jpg",
-    images: ["/images/lumea_mask.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_mask.jpg"),
+images: [imagePath("lumea_mask.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Kiran R.", rating: 5, date: "3 days ago", comment: "The absolute best treatment mask! It never cracks or strips the skin, just leaves it glowing.", verified: true }
     ]
@@ -167,8 +170,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["Natural Bergamot Essence", "Golden Amber Extract", "Sustainable Sandalwood", "Damask Rose Absolute"],
     ritual: "Spray onto pulse points—wrists, neck, and behind the ears—allowing the fragrance to unfold with your skin's natural warmth.",
     clinicalResults: "Long-lasting botanical sillage validated over 12 hours of wear.",
-    image: "/images/lumea_perfume.jpg",
-    images: ["/images/lumea_perfume.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_perfume.jpg"),
+images: [imagePath("lumea_perfume.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Yasmin S.", rating: 5, date: "Yesterday", comment: "Breathtaking scent! Subtle, sophisticated, and receives compliments wherever I go.", verified: true }
     ]
@@ -191,8 +194,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["Matrixyl 3000 Peptide Complex", "1% Natural Bakuchiol", "Camellia Japonica Seed Oil", "Coenzyme Q10"],
     ritual: "Apply 4-5 drops at night to clean face and neck, gently pressing upwards from jawline to temple.",
     clinicalResults: "89% measured visible improvement in skin elasticity and smoothed expression lines after 30 days.",
-    image: "/images/lumea_serum.jpg",
-    images: ["/images/lumea_serum.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_serum.jpg"),
+images: [imagePath("lumea_serum.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Sonia P.", rating: 5, date: "2 weeks ago", comment: "Wake up looking like I had 10 hours of sleep. Bakuchiol is so gentle.", verified: true }
     ]
@@ -215,8 +218,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["Cupuaçu Butter", "Palmitoyl Tripeptide-38", "Botanical Sunflower Wax", "Vanilla Planifolia"],
     ritual: "Apply generously whenever lips crave moisture or as an intensive sleeping lip mask before bed.",
     clinicalResults: "Overnight chapped lip repair validated by 98% of testers.",
-    image: "/images/lumea_cream.jpg",
-    images: ["/images/lumea_cream.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_cream.jpg"),
+images: [imagePath("lumea_cream.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Kiran J.", rating: 5, date: "Yesterday", comment: "Gives that coveted pillow-soft glass shine.", verified: true }
     ]
@@ -239,8 +242,8 @@ export const LUMEA_SIGNATURE_PRODUCTS = [
     keyIngredients: ["15% THD Ascorbate (Vitamin C)", "0.5% Ferulic Acid", "Kakadu Plum Extract", "Vitamin E"],
     ritual: "Apply 3 drops every morning to clean face and neck, followed by your barrier cream and SPF.",
     clinicalResults: "Clinically proven to brighten skin luminosity by 88% over 3 weeks.",
-    image: "/images/lumea_oil.jpg",
-    images: ["/images/lumea_oil.jpg", "/images/lumea_hero.jpg"],
+    image: imagePath("lumea_oil.jpg"),
+images: [imagePath("lumea_oil.jpg"), imagePath("lumea_hero.jpg")],
     reviews: [
       { id: 1, author: "Rabia K.", rating: 5, date: "5 days ago", comment: "My dark spots have faded visibly. Best Vitamin C I've tested!", verified: true }
     ]

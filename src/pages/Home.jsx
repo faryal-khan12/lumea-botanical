@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getAllProducts } from "./services/api";
-import ProductCard from "./components/ProductCard";
+import { getAllProducts } from "../services/api";
+import ProductCard from "../components/ProductCard";
 import {
   ArrowRight,
   ShieldCheck,
@@ -124,7 +124,7 @@ function Home() {
           <div className="hero-visual-block">
             <div className="hero-image-frame">
               <img
-                src="/images/lumea_hero.jpg"
+                src={`${import.meta.env.BASE_URL}images/lumea_hero.jpg`}
                 alt="LUMÉA Luxury Skincare Ritual"
                 className="hero-backdrop-img"
               />
@@ -239,7 +239,7 @@ function Home() {
         <div className="philosophy-grid">
           <div className="philosophy-visual">
             <img
-              src="/images/lumea_oil.jpg"
+              src={`${import.meta.env.BASE_URL}images/lumea_oil.jpg`}
               alt="Botanical Ingredients"
             />
           </div>
