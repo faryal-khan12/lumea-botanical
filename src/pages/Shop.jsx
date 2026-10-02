@@ -53,14 +53,13 @@ function Shop() {
   }, [searchParams]);
 
   const categories = [
-    "All",
-    "Cleansers",
-    "Serums",
-    "Moisturizers",
-    "Face Oils",
-    "Toners & Mists",
-    "Masks & Treatments",
-    "Perfumes & Fragrances"
+    { label: "All", value: "All" },
+    { label: "Serums", value: "Serums" },
+    { label: "Moisturizers & Lotions", value: "Moisturizers" },
+    { label: "Cleansers", value: "Cleansers" },
+    { label: "Face Oils", value: "Face Oils" },
+    { label: "Toners & Mists", value: "Toners & Mists" },
+    { label: "Treatments", value: "Masks & Treatments" }
   ];
 
   const skinTypes = [
@@ -168,6 +167,8 @@ function Shop() {
               ? "Your Saved Favorites"
               : selectedCategory === "All"
               ? "The Skincare Collection"
+              : selectedCategory === "Moisturizers"
+              ? "Moisturizers & Lotions"
               : selectedCategory}
           </h1>
           <p>
@@ -232,14 +233,14 @@ function Shop() {
         <div className="category-pills-scroll">
           {categories.map((cat) => (
             <button
-              key={cat}
-              className={`cat-pill-btn ${selectedCategory === cat ? "active" : ""}`}
+              key={cat.value}
+              className={`cat-pill-btn ${selectedCategory === cat.value ? "active" : ""}`}
               onClick={() => {
-                setSelectedCategory(cat);
+                setSelectedCategory(cat.value);
                 setOnlyWishlist(false);
               }}
             >
-              {cat}
+              {cat.label}
             </button>
           ))}
         </div>

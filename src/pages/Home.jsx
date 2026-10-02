@@ -27,18 +27,22 @@ function Home() {
       });
   }, []);
 
-  // Filter products based on active tab
+  // Filter products based on active tab — curated, compact, and uncrowded
   const getFilteredProducts = () => {
-    if (activeTab === "bestsellers") {
-      return products.filter((p) => p.isBestSeller).slice(0, 6);
-    }
     if (activeTab === "serums") {
-      return products.filter((p) => p.category === "Serums").slice(0, 6);
+      return products.filter((p) => p.category === "Serums").slice(0, 4);
     }
-    if (activeTab === "masks-fragrance") {
-      return products.filter((p) => p.category === "Masks & Treatments" || p.category === "Perfumes & Fragrances").slice(0, 6);
+    if (activeTab === "moisturizers") {
+      return products.filter((p) => p.category === "Moisturizers").slice(0, 4);
     }
-    return products.slice(0, 6);
+    if (activeTab === "cleansers") {
+      return products.filter((p) => p.category === "Cleansers").slice(0, 4);
+    }
+    if (activeTab === "oils") {
+      return products.filter((p) => p.category === "Face Oils").slice(0, 4);
+    }
+    // "all" default: 4 core daily essentials
+    return products.slice(0, 4);
   };
 
   const displayProducts = getFilteredProducts();
@@ -75,15 +79,22 @@ function Home() {
 
   return (
     <main className="home-page-container">
-      {/* 1. Hero Section */}
-      <section className="luxury-hero">
-        <div className="hero-grid-wrapper">
-          <div className="hero-text-block">
-            <div className="hero-badge-pill">
-              <Leaf size={13} />
-              <span>PURE BOTANICAL FORMULATIONS</span>
-            </div>
+      {/* 1. Hero Cover Banner Section (Full Spread with Left Fade) */}
+      <section className="luxury-hero-banner">
+        {/* Cover Photo Spread on All Cover */}
+        <div className="hero-banner-media">
+          <img
+            src={`${import.meta.env.BASE_URL}images/lumea_cover_model.jpg`}
+            alt="Woman applying LUMÉA Hyaluronic Serum with glass dropper bottle"
+            className="hero-banner-img"
+          />
+          {/* Faded overlay on the left side */}
+          <div className="hero-banner-gradient-overlay"></div>
+        </div>
 
+        {/* Content Container (Positioned on the Left over Faded Side) */}
+        <div className="hero-banner-content-container">
+          <div className="hero-text-block">
             <h1 className="hero-main-title">
               Effortless skincare.
               <br />
@@ -117,24 +128,6 @@ function Home() {
               <div className="hero-stat-item">
                 <strong>30-Day</strong>
                 <span>Skin Guarantee</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="hero-visual-block">
-            <div className="hero-image-frame">
-              <img
-                src={`${import.meta.env.BASE_URL}images/lumea_hero.jpg`}
-                alt="LUMÉA Luxury Skincare Ritual"
-                className="hero-backdrop-img"
-              />
-              <div className="hero-floating-card">
-                <span className="floating-card-tag">NEW LAUNCH</span>
-                <h4>Pure Hyaluronic Serum</h4>
-                <p>Triple molecular hydration for radiant glass skin</p>
-                <Link to="/product/lumea-2" className="floating-card-link">
-                  Explore Ritual →
-                </Link>
               </div>
             </div>
           </div>
@@ -179,39 +172,45 @@ function Home() {
             Discover formulas crafted with pure botanical extracts, ceramides, and vitamins.
           </p>
 
-          {/* Filter Tabs */}
+          {/* Clean, Refined Category Tabs */}
           <div className="collection-tabs">
             <button
               className={`tab-btn ${activeTab === "all" ? "active" : ""}`}
               onClick={() => setActiveTab("all")}
             >
-              All Formulations
-            </button>
-            <button
-              className={`tab-btn ${activeTab === "bestsellers" ? "active" : ""}`}
-              onClick={() => setActiveTab("bestsellers")}
-            >
-              Best Sellers
+              All
             </button>
             <button
               className={`tab-btn ${activeTab === "serums" ? "active" : ""}`}
               onClick={() => setActiveTab("serums")}
             >
-              Targeted Serums
+              Serums
             </button>
             <button
-              className={`tab-btn ${activeTab === "masks-fragrance" ? "active" : ""}`}
-              onClick={() => setActiveTab("masks-fragrance")}
+              className={`tab-btn ${activeTab === "moisturizers" ? "active" : ""}`}
+              onClick={() => setActiveTab("moisturizers")}
             >
-              Masks & Fragrance
+              Moisturizers & Lotions
+            </button>
+            <button
+              className={`tab-btn ${activeTab === "cleansers" ? "active" : ""}`}
+              onClick={() => setActiveTab("cleansers")}
+            >
+              Cleansers
+            </button>
+            <button
+              className={`tab-btn ${activeTab === "oils" ? "active" : ""}`}
+              onClick={() => setActiveTab("oils")}
+            >
+              Face Oils
             </button>
           </div>
         </div>
 
-        {/* Clean, Neat Product Grid */}
+        {/* Compact, Clean, Luxury 4-Product Grid */}
         <div className="featured-products-grid">
           {loading ? (
-            Array.from({ length: 6 }).map((_, idx) => (
+            Array.from({ length: 4 }).map((_, idx) => (
               <div key={idx} className="skeleton-card">
                 <div className="skeleton-image"></div>
                 <div className="skeleton-line short"></div>
@@ -228,7 +227,7 @@ function Home() {
 
         <div className="section-bottom-action">
           <Link to="/shop" className="btn-secondary-outlined view-all-btn">
-            <span>Explore All Formulations</span>
+            <span>Explore Complete Collection (8 Formulations)</span>
             <ArrowRight size={16} />
           </Link>
         </div>

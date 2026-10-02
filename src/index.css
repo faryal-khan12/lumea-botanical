@@ -34,6 +34,16 @@
   --radius-lg: 16px;
   --radius-full: 9999px;
 
+  /* Typographic Hierarchy Tokens */
+  --text-xs: 0.76rem;    /* 12px - Badges, category tracking tags */
+  --text-sm: 0.85rem;    /* 13.6px - Secondary captions, meta info */
+  --text-base: 0.95rem;  /* 15.2px - Body text, standard inputs, buttons */
+  --text-md: 1.05rem;    /* 16.8px - Card titles, price highlights */
+  --text-lg: 1.25rem;    /* 20px - Sub-headings, h4 */
+  --text-xl: 1.55rem;    /* 24.8px - h3 */
+  --text-2xl: 2.15rem;   /* 34.4px - h2 Section titles */
+  --text-3xl: 2.9rem;    /* 46.4px - h1 Page heroes */
+
   --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -56,19 +66,55 @@ body {
   font-family: var(--font-sans);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.65;
   overflow-x: hidden;
+  font-size: var(--text-base);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  font-weight: 500;
   color: var(--text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+}
+
+h1 {
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  line-height: 1.18;
+}
+
+h2 {
+  font-size: clamp(1.65rem, 2.6vw, 2.25rem);
+  line-height: 1.26;
+}
+
+h3 {
+  font-size: clamp(1.18rem, 1.8vw, 1.45rem);
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+h4 {
+  font-family: var(--font-sans);
+  font-size: 0.96rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+p {
+  font-size: var(--text-base);
+  line-height: 1.68;
+  color: var(--text-secondary);
+}
+
+strong, b {
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 button, input, select, textarea {
   font-family: var(--font-sans);
+  font-size: var(--text-base);
 }
 
 button {

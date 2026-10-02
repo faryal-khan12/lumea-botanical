@@ -12,7 +12,9 @@ import {
   ShoppingBag,
   ArrowRight,
   ArrowLeft,
-  Lock
+  Lock,
+  Clock,
+  Sparkles
 } from "lucide-react";
 
 function CheckoutModal() {
@@ -44,7 +46,7 @@ function CheckoutModal() {
     notes: ""
   });
 
-  const [paymentMethod, setPaymentMethod] = useState("cod"); // "card" | "cod" | "applepay"
+  const [paymentMethod, setPaymentMethod] = useState("cod"); // "cod" | "card"
   const [cardData, setCardData] = useState({
     cardNumber: "**** **** **** 4242",
     expiry: "12/28",
@@ -70,8 +72,8 @@ function CheckoutModal() {
 
   const handleGoToPayment = (e) => {
     e.preventDefault();
-    if (!formData.firstName || !formData.email || !formData.address) {
-      alert("Please fill in the required shipping details.");
+    if (!formData.firstName.trim() || !formData.email.trim() || !formData.address.trim() || !formData.phone.trim()) {
+      alert("Please fill in all required shipping fields.");
       return;
     }
     setStep(2);
@@ -94,8 +96,6 @@ function CheckoutModal() {
       paymentMethod:
         paymentMethod === "cod"
           ? "Cash / Card on Delivery"
-          : paymentMethod === "applepay"
-          ? "Apple Pay"
           : "Credit / Debit Card (ending in 4242)",
       items: cart.map((i) => ({
         id: i.product.id,
@@ -118,16 +118,13 @@ function CheckoutModal() {
       setStep(3);
       setLoading(false);
 
-      // Trigger Confetti!
       try {
         confetti({
-          particleCount: 100,
+          particleCount: 90,
           spread: 70,
           origin: { y: 0.6 }
         });
-      } catch (err) {
-        // ignore if blocked
-      }
+      } catch (err) {}
     } catch (err) {
       setLoading(false);
       alert("Order could not be submitted. Please try again.");
@@ -135,47 +132,58 @@ function CheckoutModal() {
   };
 
   return (
-    <div className="modal-backdrop" onClick={handleClose}>
+    <div className="checkout-overlay" onClick={handleClose}>
       <div
-        className="modal-content checkout-modal"
+        className="checkout-dialog"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
+        aria-labelledby="checkout-heading"
       >
-        <button className="modal-close-btn" onClick={handleClose}>
+        {/* Close Button */}
+        <button
+          className="checkout-close-btn"
+          onClick={handleClose}
+          aria-label="Close checkout"
+        >
           <X size={20} />
         </button>
 
-        {/* Progress Header */}
-        <div className="checkout-progress-bar">
-          <div className={`step-node ${step >= 1 ? "active" : ""}`}>
-            <span className="step-num">1</span>
-            <span className="step-label">Shipping</span>
+        {/* Step Progress Bar */}
+        <div className="checkout-stepper-header">
+          <div className={`checkout-step-item ${step >= 1 ? "active" : ""} ${step > 1 ? "completed" : ""}`}>
+            <span className="step-circle">{step > 1 ? <CheckCircle2 size={16} /> : "1"}</span>
+            <span className="step-text">Shipping</span>
           </div>
-          <div className="step-line"></div>
-          <div className={`step-node ${step >= 2 ? "active" : ""}`}>
-            <span className="step-num">2</span>
-            <span className="step-label">Payment</span>
+          <div className={`step-connector ${step >= 2 ? "active" : ""}`}></div>
+          <div className={`checkout-step-item ${step >= 2 ? "active" : ""} ${step > 2 ? "completed" : ""}`}>
+            <span className="step-circle">{step > 2 ? <CheckCircle2 size={16} /> : "2"}</span>
+            <span className="step-text">Payment</span>
           </div>
-          <div className="step-line"></div>
-          <div className={`step-node ${step === 3 ? "active" : ""}`}>
-            <span className="step-num">3</span>
-            <span className="step-label">Confirmation</span>
+          <div className={`step-connector ${step === 3 ? "active" : ""}`}></div>
+          <div className={`checkout-step-item ${step === 3 ? "active completed" : ""}`}>
+            <span className="step-circle">3</span>
+            <span className="step-text">Confirmation</span>
           </div>
         </div>
 
-        {/* Step 1: Shipping Info */}
+        {/* STEP 1: Shipping Details */}
         {step === 1 && (
-          <form onSubmit={handleGoToPayment} className="checkout-step-body">
-            <div className="checkout-step-header">
-              <h3>Shipping Information</h3>
-              <p>Where should we deliver your luxury botanical ritual?</p>
+          <form onSubmit={handleGoToPayment} className="checkout-body">
+            <div className="checkout-section-intro">
+              <h2 id="checkout-heading" className="checkout-title">
+                Delivery Details
+              </h2>
+              <p className="checkout-subtitle">
+                Enter your shipping address where your fresh botanical formulations will be delivered.
+              </p>
             </div>
 
-            <div className="checkout-form-grid">
-              <div className="form-group">
-                <label>First Name *</label>
+            <div className="checkout-fields-grid">
+              <div className="checkout-form-field">
+                <label htmlFor="firstName">First Name *</label>
                 <input
+                  id="firstName"
                   type="text"
                   name="firstName"
                   required
@@ -185,9 +193,10 @@ function CheckoutModal() {
                 />
               </div>
 
-              <div className="form-group">
-                <label>Last Name</label>
+              <div className="checkout-form-field">
+                <label htmlFor="lastName">Last Name</label>
                 <input
+                  id="lastName"
                   type="text"
                   name="lastName"
                   placeholder="e.g. Lin"
@@ -196,9 +205,10 @@ function CheckoutModal() {
                 />
               </div>
 
-              <div className="form-group full-width">
-                <label>Email Address (For order tracking) *</label>
+              <div className="checkout-form-field full-width">
+                <label htmlFor="email">Email Address * (For order dispatch updates)</label>
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   required
@@ -208,9 +218,10 @@ function CheckoutModal() {
                 />
               </div>
 
-              <div className="form-group full-width">
-                <label>Phone Number *</label>
+              <div className="checkout-form-field full-width">
+                <label htmlFor="phone">Phone Number * (For courier contact)</label>
                 <input
+                  id="phone"
                   type="tel"
                   name="phone"
                   required
@@ -220,57 +231,69 @@ function CheckoutModal() {
                 />
               </div>
 
-              <div className="form-group full-width">
-                <label>Delivery Street Address *</label>
+              <div className="checkout-form-field full-width">
+                <label htmlFor="address">Street Address * (Apartment, Suite, Unit, Street)</label>
                 <input
+                  id="address"
                   type="text"
                   name="address"
                   required
-                  placeholder="House / Apt / Suite, Street address"
+                  placeholder="e.g. House 42, Street 12, Phase 5"
                   value={formData.address}
                   onChange={handleInputChange}
                 />
               </div>
 
-              <div className="form-group">
-                <label>City *</label>
+              <div className="checkout-form-field">
+                <label htmlFor="city">City *</label>
                 <input
+                  id="city"
                   type="text"
                   name="city"
                   required
-                  placeholder="e.g. Lahore / Karachi / Islamabad"
+                  placeholder="e.g. Karachi / Lahore / Islamabad"
                   value={formData.city}
                   onChange={handleInputChange}
                 />
               </div>
 
-              <div className="form-group">
-                <label>Postal Code</label>
+              <div className="checkout-form-field">
+                <label htmlFor="postalCode">Postal Code</label>
                 <input
+                  id="postalCode"
                   type="text"
                   name="postalCode"
-                  placeholder="e.g. 54000"
+                  placeholder="e.g. 74200"
                   value={formData.postalCode}
                   onChange={handleInputChange}
                 />
               </div>
             </div>
 
-            {/* Summary preview */}
-            <div className="checkout-summary-mini">
-              <span>Order Total ({cart.length} items):</span>
-              <strong>{formatPrice(grandTotalUsd)}</strong>
+            {/* Mini Order Summary */}
+            <div className="checkout-order-mini-bar">
+              <div className="mini-bar-left">
+                <ShoppingBag size={16} />
+                <span>
+                  <strong>{cart.length} {cart.length === 1 ? "Product" : "Products"}</strong> in bag
+                </span>
+              </div>
+              <div className="mini-bar-right">
+                <span>Total Due:</span>
+                <strong>{formatPrice(grandTotalUsd)}</strong>
+              </div>
             </div>
 
-            <div className="checkout-step-footer">
+            {/* Actions */}
+            <div className="checkout-actions-row">
               <button
                 type="button"
-                className="btn-text-secondary"
+                className="checkout-cancel-btn"
                 onClick={handleClose}
               >
-                Return to Bag
+                Back to Bag
               </button>
-              <button type="submit" className="btn-primary-filled">
+              <button type="submit" className="btn-primary-filled checkout-submit-btn">
                 <span>Continue to Payment</span>
                 <ArrowRight size={16} />
               </button>
@@ -278,140 +301,157 @@ function CheckoutModal() {
           </form>
         )}
 
-        {/* Step 2: Payment */}
+        {/* STEP 2: Payment & Review */}
         {step === 2 && (
-          <div className="checkout-step-body">
-            <div className="checkout-step-header">
-              <h3>Payment & Confirmation</h3>
-              <p>All transactions are 256-bit encrypted and secure.</p>
+          <div className="checkout-body">
+            <div className="checkout-section-intro">
+              <h2 className="checkout-title">Payment Method</h2>
+              <p className="checkout-subtitle">
+                Select your preferred payment option. All transactions are securely processed.
+              </p>
             </div>
 
-            <div className="payment-options-list">
-              {/* Cash On Delivery */}
+            <div className="checkout-payment-methods">
+              {/* Cash On Delivery Option */}
               <label
-                className={`payment-option-card ${
-                  paymentMethod === "cod" ? "selected" : ""
+                className={`checkout-payment-card ${
+                  paymentMethod === "cod" ? "active" : ""
                 }`}
               >
-                <input
-                  type="radio"
-                  name="payment"
-                  checked={paymentMethod === "cod"}
-                  onChange={() => setPaymentMethod("cod")}
-                />
-                <div className="payment-opt-info">
-                  <Truck size={20} className="payment-opt-icon" />
-                  <div>
-                    <strong>Cash / Card on Delivery</strong>
-                    <p>Pay comfortably when your parcel arrives at your door.</p>
+                <div className="payment-radio-wrap">
+                  <input
+                    type="radio"
+                    name="payment"
+                    checked={paymentMethod === "cod"}
+                    onChange={() => setPaymentMethod("cod")}
+                  />
+                </div>
+                <div className="payment-card-body">
+                  <div className="payment-card-title-row">
+                    <Truck size={18} className="payment-icon" />
+                    <strong>Cash or Card on Delivery</strong>
+                    <span className="payment-badge-pill">Most Popular</span>
                   </div>
+                  <p className="payment-card-desc">
+                    Pay safely with cash or mobile card machine when your parcel is delivered to your doorstep.
+                  </p>
                 </div>
               </label>
 
-              {/* Credit / Debit Card */}
+              {/* Card Payment Option */}
               <label
-                className={`payment-option-card ${
-                  paymentMethod === "card" ? "selected" : ""
+                className={`checkout-payment-card ${
+                  paymentMethod === "card" ? "active" : ""
                 }`}
               >
-                <input
-                  type="radio"
-                  name="payment"
-                  checked={paymentMethod === "card"}
-                  onChange={() => setPaymentMethod("card")}
-                />
-                <div className="payment-opt-info">
-                  <CreditCard size={20} className="payment-opt-icon" />
-                  <div>
-                    <strong>Credit / Debit Card (Visa, Mastercard, Amex)</strong>
-                    <p>Instant secure card processing.</p>
+                <div className="payment-radio-wrap">
+                  <input
+                    type="radio"
+                    name="payment"
+                    checked={paymentMethod === "card"}
+                    onChange={() => setPaymentMethod("card")}
+                  />
+                </div>
+                <div className="payment-card-body">
+                  <div className="payment-card-title-row">
+                    <CreditCard size={18} className="payment-icon" />
+                    <strong>Credit / Debit Card</strong>
+                    <span className="payment-badge-pill">Instant Dispatch</span>
                   </div>
+                  <p className="payment-card-desc">
+                    Encrypted card checkout supporting Visa, Mastercard, and UnionPay.
+                  </p>
                 </div>
               </label>
 
               {paymentMethod === "card" && (
-                <div className="card-mock-form">
-                  <div className="form-group full-width">
+                <div className="checkout-card-preview-box">
+                  <div className="checkout-form-field full-width">
                     <label>Card Number</label>
                     <input
                       type="text"
-                      defaultValue="4242 •••• •••• 4242"
+                      defaultValue="•••• •••• •••• 4242"
                       disabled
-                      className="mock-input"
+                      className="card-disabled-input"
                     />
                   </div>
-                  <div className="form-group">
-                    <label>Expiry Date</label>
-                    <input
-                      type="text"
-                      defaultValue="12 / 28"
-                      disabled
-                      className="mock-input"
-                    />
+                  <div className="card-fields-split">
+                    <div className="checkout-form-field">
+                      <label>Expiry Date</label>
+                      <input
+                        type="text"
+                        defaultValue="12 / 28"
+                        disabled
+                        className="card-disabled-input"
+                      />
+                    </div>
+                    <div className="checkout-form-field">
+                      <label>Security Code</label>
+                      <input
+                        type="text"
+                        defaultValue="888"
+                        disabled
+                        className="card-disabled-input"
+                      />
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <label>Security Code (CVC)</label>
-                    <input
-                      type="text"
-                      defaultValue="888"
-                      disabled
-                      className="mock-input"
-                    />
+                  <div className="mock-card-note">
+                    <Lock size={12} />
+                    <span>Test mode active: Demo card preloaded for seamless testing</span>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Order Totals Review */}
-            <div className="checkout-totals-breakdown">
-              <div className="checkout-breakdown-row">
-                <span>Subtotal</span>
+            {/* Breakdown Card */}
+            <div className="checkout-recap-card">
+              <div className="recap-row">
+                <span>Subtotal ({cart.length} items)</span>
                 <span>{formatPrice(cartSubtotalUsd)}</span>
               </div>
               {discountAmountUsd > 0 && (
-                <div className="checkout-breakdown-row discount">
-                  <span>Promo Discount ({appliedPromo.code})</span>
+                <div className="recap-row discount">
+                  <span>Special Discount ({appliedPromo?.code})</span>
                   <span>-{formatPrice(discountAmountUsd)}</span>
                 </div>
               )}
-              <div className="checkout-breakdown-row">
-                <span>Shipping</span>
-                <span>
-                  {shippingUsd === 0 ? "FREE" : formatPrice(shippingUsd)}
-                </span>
+              <div className="recap-row">
+                <span>Shipping Delivery</span>
+                <span>{shippingUsd === 0 ? "FREE" : formatPrice(shippingUsd)}</span>
               </div>
-              <div className="checkout-breakdown-row grand-total">
-                <strong>Total Amount:</strong>
-                <strong>{formatPrice(grandTotalUsd)}</strong>
+              <div className="recap-row total">
+                <strong>Total Due</strong>
+                <strong className="recap-total-val">{formatPrice(grandTotalUsd)}</strong>
               </div>
             </div>
 
-            <div className="checkout-security-badge">
-              <Lock size={14} />
-              <span>Guaranteed Safe & Secure Checkout</span>
+            <div className="checkout-trust-guarantee">
+              <ShieldCheck size={15} />
+              <span>Backed by LUMÉA 30-Day Happiness Guarantee & 256-Bit SSL Protection</span>
             </div>
 
-            <div className="checkout-step-footer">
+            {/* Actions */}
+            <div className="checkout-actions-row">
               <button
                 type="button"
-                className="btn-text-secondary"
+                className="checkout-cancel-btn"
                 onClick={() => setStep(1)}
               >
-                <ArrowLeft size={16} />
+                <ArrowLeft size={15} />
                 <span>Back to Shipping</span>
               </button>
               <button
                 type="button"
-                className="btn-primary-filled"
+                className="btn-primary-filled checkout-submit-btn"
                 disabled={loading}
                 onClick={handlePlaceOrder}
               >
                 {loading ? (
-                  <span>Securing Order...</span>
+                  <span>Processing Ritual Order...</span>
                 ) : (
                   <>
-                    <span>Place Order • {formatPrice(grandTotalUsd)}</span>
-                    <CheckCircle2 size={18} />
+                    <span>Confirm Order • {formatPrice(grandTotalUsd)}</span>
+                    <CheckCircle2 size={16} />
                   </>
                 )}
               </button>
@@ -419,75 +459,84 @@ function CheckoutModal() {
           </div>
         )}
 
-        {/* Step 3: Confirmation */}
+        {/* STEP 3: Order Confirmation */}
         {step === 3 && confirmedOrder && (
-          <div className="checkout-step-body confirmation-step">
-            <div className="confirmation-badge">
-              <CheckCircle2 size={48} className="confetti-check" />
+          <div className="checkout-body checkout-confirmation-body">
+            <div className="confirmation-header">
+              <div className="confirmation-success-icon">
+                <CheckCircle2 size={40} />
+              </div>
+              <h2 className="confirmation-title">Your Order is Confirmed!</h2>
+              <p className="confirmation-subtitle">
+                Thank you for choosing LUMÉA. We have sent a detailed order confirmation and receipt
+                to <strong>{confirmedOrder.customer.email}</strong>.
+              </p>
             </div>
 
-            <h2 className="confirmation-title">Thank you for your order!</h2>
-            <p className="confirmation-subtitle">
-              Your botanical ritual is being lovingly packaged. A confirmation
-              email has been sent to <strong>{confirmedOrder.customer.email}</strong>.
-            </p>
-
-            <div className="order-receipt-card" id="printable-receipt">
-              <div className="receipt-header">
-                <div>
-                  <span className="receipt-label">Order Number</span>
-                  <h3>{confirmedOrder.orderId}</h3>
+            <div className="confirmation-receipt-box" id="printable-receipt">
+              <div className="receipt-meta-grid">
+                <div className="receipt-meta-item">
+                  <span className="receipt-meta-label">Order Reference</span>
+                  <strong className="receipt-order-id">{confirmedOrder.orderId}</strong>
                 </div>
-                <div className="receipt-date">
-                  <span className="receipt-label">Order Date</span>
-                  <p>{confirmedOrder.orderDate}</p>
+                <div className="receipt-meta-item">
+                  <span className="receipt-meta-label">Order Date</span>
+                  <span>{confirmedOrder.orderDate}</span>
+                </div>
+                <div className="receipt-meta-item">
+                  <span className="receipt-meta-label">Payment Method</span>
+                  <span>{confirmedOrder.paymentMethod}</span>
+                </div>
+                <div className="receipt-meta-item">
+                  <span className="receipt-meta-label">Estimated Delivery</span>
+                  <span>{confirmedOrder.estimatedDelivery}</span>
                 </div>
               </div>
 
-              <div className="receipt-delivery">
-                <Truck size={18} />
+              <div className="receipt-delivery-info">
+                <Truck size={16} />
                 <span>
-                  Estimated Delivery: <strong>{confirmedOrder.estimatedDelivery}</strong>
+                  Shipping to: <strong>{confirmedOrder.shippingAddress.address}, {confirmedOrder.shippingAddress.city}</strong>
                 </span>
               </div>
 
-              <div className="receipt-items-list">
-                <h4>Items Ordered ({confirmedOrder.items.length})</h4>
+              <div className="receipt-items-table">
+                <div className="receipt-table-header">
+                  <span>Ordered Item</span>
+                  <span>Total</span>
+                </div>
                 {confirmedOrder.items.map((item, idx) => (
-                  <div key={idx} className="receipt-item-row">
-                    <span>
-                      {item.name} <small>x{item.quantity}</small>
+                  <div key={idx} className="receipt-item-line">
+                    <span className="receipt-item-title">
+                      {item.name} <small>× {item.quantity}</small>
                     </span>
-                    <span>{formatPrice(item.priceUsd * item.quantity)}</span>
+                    <span className="receipt-item-price">
+                      {formatPrice(item.priceUsd * item.quantity)}
+                    </span>
                   </div>
                 ))}
               </div>
 
-              <div className="receipt-totals">
-                <div className="receipt-row total">
-                  <strong>Total Paid / Due:</strong>
-                  <strong>{formatPrice(confirmedOrder.totals.grandTotalUsd)}</strong>
-                </div>
-                <p className="receipt-pay-method">
-                  Payment Method: <em>{confirmedOrder.paymentMethod}</em>
-                </p>
-                <p className="receipt-address">
-                  Ship To: <em>{confirmedOrder.shippingAddress.address}, {confirmedOrder.shippingAddress.city}</em>
-                </p>
+              <div className="receipt-final-total">
+                <span>Total Amount:</span>
+                <strong>{formatPrice(confirmedOrder.totals.grandTotalUsd)}</strong>
               </div>
             </div>
 
             <div className="confirmation-actions">
               <button
-                className="btn-secondary-outlined print-btn"
+                className="btn-secondary-outlined print-receipt-btn"
                 onClick={() => window.print()}
               >
-                <Printer size={16} />
+                <Printer size={15} />
                 <span>Print Receipt</span>
               </button>
-              <button className="btn-primary-filled" onClick={handleClose}>
-                <ShoppingBag size={16} />
-                <span>Continue Shopping</span>
+              <button
+                className="btn-primary-filled continue-btn"
+                onClick={handleClose}
+              >
+                <ShoppingBag size={15} />
+                <span>Return to Store</span>
               </button>
             </div>
           </div>

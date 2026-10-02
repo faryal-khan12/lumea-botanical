@@ -1,172 +1,199 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Sparkles,
-  Leaf,
-  ShieldCheck,
-  RefreshCw,
-  HeartHandshake,
   ChevronDown,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from "lucide-react";
 
 function About() {
   const [openFaq, setOpenFaq] = useState(0);
 
+  const pillars = [
+    {
+      index: "01",
+      title: "First Cold-Pressed Botanicals",
+      desc: "Extracted without heat or harsh chemical solvents to preserve 100% of live polyphenols and vital lipid nutrients."
+    },
+    {
+      index: "02",
+      title: "Amber Glass Apothecary",
+      desc: "Packaged in infinitely recyclable pharmaceutical amber glass that naturally shields delicate plant actives from UV light."
+    },
+    {
+      index: "03",
+      title: "100% Vegan & Cruelty-Free",
+      desc: "Certified cruelty-free by Leaping Bunny. Never tested on animals, and formulated entirely without animal-derived lipids."
+    }
+  ];
+
   const faqs = [
     {
-      q: "Are LUMÉA formulations safe for reactive or sensitive skin?",
-      a: "Yes. Every single product is formulated at the skin's biocompatible 5.5 pH balance and dermatologist-tested on sensitive skin panels. We strictly exclude artificial dyes, chemical fragrances, sulfates, and drying alcohols."
+      q: "Are LUMÉA formulations suitable for reactive or sensitive skin?",
+      a: "Yes. Every formula is dermatologist-tested on sensitive skin panels and balanced to a biocompatible 5.5 pH. We exclude artificial dyes, synthetic perfumes, sulfates, and drying alcohols."
     },
     {
-      q: "Where are your botanical extracts sourced?",
-      a: "We work directly with certified organic, ethical smallholder farms in France, Bulgaria, and the Mediterranean. Our oils are first-cold-pressed and unrefined to preserve active polyphenols and vital lipid nutrients."
+      q: "Where are your botanical extracts and oils sourced?",
+      a: "We work directly with certified organic, ethical smallholder farms in France, Bulgaria, and the Mediterranean to ensure pure traceability and sustainable harvesting."
     },
     {
-      q: "How should I store my products to maintain freshness?",
-      a: "Because we prioritize clean preservative systems, keep your products in a cool, dry place away from direct sunlight. Our amber glass bottles naturally filter harmful UV light to safeguard botanical potency."
+      q: "How should I store my products to maintain botanical freshness?",
+      a: "Keep your bottles in a cool, dry spot away from direct sunlight. Our heavy amber glass bottles naturally filter UV light to protect delicate botanical actives."
     },
     {
       q: "What is your 30-Day Radiant Skin Guarantee?",
-      a: "We want you to love your skincare ritual. If a formula isn't the perfect match for your skin, simply reach out to our client concierge within 30 days of receipt for an effortless refund or consultation exchange."
+      a: "If a formula isn't the perfect match for your skin, simply reach out to our concierge within 30 days of receipt for an effortless refund or product consultation."
     }
   ];
 
   return (
-    <main className="about-page-wrapper">
-      {/* 1. Hero */}
-      <section className="about-hero-section">
-        <div className="about-hero-inner">
-          <span className="section-overhead-tag">OUR ORIGIN & VALUES</span>
-          <h1>Beauty in simplicity. Powered by pure botanicals.</h1>
-          <p>
-            LUMÉA was founded with a singular conviction: your daily skincare ritual
-            should not be a stressful chemical marathon. It should be a quiet, restorative
-            moment that honors your skin's biological intelligence.
+    <main className="about-page">
+      {/* 1. Serene, Uncrowded Hero Section */}
+      <section className="about-hero">
+        <div className="about-hero-container">
+          <span className="section-overhead-tag">OUR BOTANICAL PHILOSOPHY</span>
+          <h1 className="about-hero-heading">
+            Honoring your skin's natural intelligence.
+          </h1>
+          <p className="about-hero-subheading">
+            LUMÉA was founded on a simple premise: daily skincare should be a peaceful,
+            restorative ritual — not an overwhelming marathon of harsh synthetic chemicals.
           </p>
         </div>
       </section>
 
-      {/* 2. Visual Storytelling Grid */}
-      <section className="about-story-section">
-        <div className="about-story-grid">
-          <div className="about-story-img-frame">
-            <img
-              src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=1000&q=80"
-              alt="Artisan Botanicals"
-              className="about-story-img"
-            />
-          </div>
-
-          <div className="about-story-content">
-            <span className="section-overhead-tag">THE LUMÉA STANDARD</span>
-            <h2>Less, but profoundly better.</h2>
-            <p>
-              Instead of rushing 50-step trends to market, our apothecary formulators
-              spend up to 18 months perfecting individual formulations. We curate
-              potent active botanicals, skin-identical ceramides, and fermented
-              bio-actives that work in deep synergy with your cells.
-            </p>
-            <p>
-              Every bottle is consciously crafted in small batches, guaranteeing
-              uncompromised freshness, maximum nutrient density, and remarkable tactile
-              luxury.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. The Four Pillars of LUMÉA */}
-      <section className="about-pillars-section">
-        <div className="section-head-center">
-          <span className="section-overhead-tag">OUR COMMITMENTS</span>
-          <h2 className="section-title">The Four Botanical Pillars</h2>
-        </div>
-
-        <div className="four-pillars-grid">
-          <div className="pillar-box">
-            <Leaf size={28} className="pillar-ico" />
-            <h3>Wildcrafted & Cold-Pressed</h3>
-            <p>
-              We harvest unrefined seeds and botanicals using gentle cold-press
-              extraction to maintain active vitamins and natural omega profiles.
-            </p>
-          </div>
-
-          <div className="pillar-box">
-            <ShieldCheck size={28} className="pillar-ico" />
-            <h3>Biocompatible Science</h3>
-            <p>
-              Formulated to match your acid mantle’s natural 5.5 pH, reinforcing
-              resilience without clogging pores or triggering rebound oiliness.
-            </p>
-          </div>
-
-          <div className="pillar-box">
-            <RefreshCw size={28} className="pillar-ico" />
-            <h3>Circular Amber Glass</h3>
-            <p>
-              Housed in infinitely recyclable, pharmaceutical-grade amber glass
-              that shields delicate botanical actives from light degradation.
-            </p>
-          </div>
-
-          <div className="pillar-box">
-            <HeartHandshake size={28} className="pillar-ico" />
-            <h3>Cruelty-Free Ethics</h3>
-            <p>
-              Proudly Leaping Bunny certified. We never test on animals, nor do
-              we source from suppliers who do. 100% vegan formulations.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Interactive FAQ Accordion */}
-      <section className="about-faq-section" id="faq">
-        <div className="section-head-center">
-          <span className="section-overhead-tag">QUESTIONS & ANSWERS</span>
-          <h2 className="section-title">Frequently Asked Questions</h2>
-        </div>
-
-        <div className="faq-list-container">
-          {faqs.map((faq, index) => (
-            <div key={index} className="faq-item-card">
-              <button
-                className="faq-question-btn"
-                onClick={() => setOpenFaq(openFaq === index ? -1 : index)}
-              >
-                <span>{faq.q}</span>
-                <ChevronDown
-                  size={18}
-                  className={`faq-chevron ${openFaq === index ? "open" : ""}`}
+      {/* 2. Brand Story / Formulation Standards (Clean & Decent) */}
+      <section className="about-story">
+        <div className="about-container">
+          <div className="about-story-grid">
+            <div className="about-story-media">
+              <div className="about-image-wrapper">
+                <img
+                  src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=900&q=80"
+                  alt="Apothecary botanicals and amber glass"
+                  className="about-image"
                 />
-              </button>
-              {openFaq === index && (
-                <div className="faq-answer-body">
-                  <p>{faq.a}</p>
-                </div>
-              )}
+              </div>
+              <p className="about-image-caption">
+                Compounded weekly in small micro-batches for peak active potency.
+              </p>
             </div>
-          ))}
+
+            <div className="about-story-details">
+              <span className="section-overhead-tag">OUR ORIGIN & CRAFT</span>
+              <h2 className="about-story-title">Fewer ingredients. Profoundly higher efficacy.</h2>
+              <p className="about-story-text">
+                Rather than chasing fleeting 10-step trends, our laboratory formulators spend
+                up to 18 months perfecting each individual formula. We pair bio-identical
+                ceramides, cold-pressed seed oils, and gentle plant extracts that seamlessly
+                harmonize with your biology.
+              </p>
+              <p className="about-story-text">
+                Every bottle is crafted in small, deliberate batches. The result is lightweight,
+                deep-absorbing skincare that delivers immediate comfort and lasting barrier resilience.
+              </p>
+
+              {/* Clean, Simple, Decent Standards (No Tacky AI-generated numbers) */}
+              <div className="about-standards-list">
+                <div className="standard-item">
+                  <span className="standard-name">Biocompatible pH 5.5</span>
+                  <span className="standard-desc">Calibrated precisely to fortify and nurture the skin's acid mantle.</span>
+                </div>
+                <div className="standard-item">
+                  <span className="standard-name">Pure Cold-Pressed Oils</span>
+                  <span className="standard-desc">Extracted without petroleum solvents to preserve 100% of live nutrients.</span>
+                </div>
+                <div className="standard-item">
+                  <span className="standard-name">Zero Synthetic Fillers</span>
+                  <span className="standard-desc">Free from parabens, artificial fragrances, silicones, and sulfates.</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 5. Bottom CTA */}
-      <section className="about-cta-section">
-        <div className="about-cta-box">
-          <span className="section-overhead-tag">BEGIN YOUR JOURNEY</span>
-          <h2>Experience the difference of biocompatible skincare.</h2>
-          <p>Explore our signature collection or take our 60-second skincare consultation.</p>
-          <div className="about-cta-buttons">
-            <Link to="/shop" className="btn-primary-filled">
-              <span>Shop Collection</span>
-              <ArrowRight size={16} />
-            </Link>
-            <Link to="/quiz" className="btn-secondary-outlined">
-              <Sparkles size={16} />
-              <span>Take Consultation Quiz</span>
-            </Link>
+      {/* 3. The Core Commitments (Spacious & Refined) */}
+      <section className="about-pillars">
+        <div className="about-container">
+          <div className="section-head-center">
+            <span className="section-overhead-tag">OUR CORE COMMITMENTS</span>
+            <h2 className="section-title">Formulation Principles</h2>
+            <p className="section-desc">
+              Every formula we create adheres to our strict principles of safety, purity, and environmental care.
+            </p>
+          </div>
+
+          <div className="about-pillars-grid">
+            {pillars.map((pillar, idx) => (
+              <div key={idx} className="about-pillar-card">
+                <span className="pillar-num">{pillar.index}</span>
+                <h3 className="pillar-card-title">{pillar.title}</h3>
+                <p className="pillar-card-desc">{pillar.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Frequently Asked Questions */}
+      <section className="about-faq">
+        <div className="about-container about-faq-container">
+          <div className="section-head-center">
+            <span className="section-overhead-tag">TRANSPARENCY & CLARITY</span>
+            <h2 className="section-title">Common Questions</h2>
+            <p className="section-desc">
+              Everything you need to know about our ingredients, testing, and formulations.
+            </p>
+          </div>
+
+          <div className="about-faq-list">
+            {faqs.map((faq, index) => {
+              const isOpen = openFaq === index;
+              return (
+                <div key={index} className={`about-faq-item ${isOpen ? "active" : ""}`}>
+                  <button
+                    className="about-faq-question-btn"
+                    onClick={() => setOpenFaq(isOpen ? -1 : index)}
+                    aria-expanded={isOpen}
+                  >
+                    <span className="faq-question-text">{faq.q}</span>
+                    <ChevronDown
+                      size={18}
+                      className={`faq-chevron-icon ${isOpen ? "rotated" : ""}`}
+                    />
+                  </button>
+                  {isOpen && (
+                    <div className="about-faq-answer">
+                      <p>{faq.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Bottom Invitation CTA */}
+      <section className="about-cta">
+        <div className="about-container">
+          <div className="about-cta-card">
+            <span className="section-overhead-tag">DISCOVER YOUR MATCH</span>
+            <h2 className="about-cta-title">Ready for radiant, balanced skin?</h2>
+            <p className="about-cta-desc">
+              Explore our core botanical apothecary collection or take our 60-second skincare consultation.
+            </p>
+            <div className="about-cta-actions">
+              <Link to="/shop" className="btn-primary-filled">
+                <span>Explore Collection</span>
+                <ArrowRight size={15} />
+              </Link>
+              <Link to="/quiz" className="btn-secondary-outlined">
+                <Sparkles size={15} />
+                <span>Skincare Consultation</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

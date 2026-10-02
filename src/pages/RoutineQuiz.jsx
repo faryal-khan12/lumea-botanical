@@ -12,7 +12,12 @@ import {
   RotateCcw,
   Leaf,
   ShieldCheck,
-  Star
+  Star,
+  Droplets,
+  Sun,
+  Flame,
+  Scale,
+  Heart
 } from "lucide-react";
 
 function RoutineQuiz() {
@@ -28,70 +33,82 @@ function RoutineQuiz() {
 
   const skinTypeOptions = [
     {
+      id: "normal",
+      icon: <Scale size={20} className="quiz-opt-icon" />,
+      title: "Balanced & Comfortable",
+      desc: "Smooth texture, neither overly oily nor tight throughout the day."
+    },
+    {
       id: "dry",
-      title: "Dry & Dehydrated",
-      desc: "Feels tight after cleansing, prone to flakiness or dullness."
+      icon: <Droplets size={20} className="quiz-opt-icon" />,
+      title: "Dry & Thirsty",
+      desc: "Skin feels tight or parched after washing, craves rich nourishing hydration."
     },
     {
       id: "oily",
-      title: "Oily & Blemish-Prone",
-      desc: "Prone to shine throughout midday, visible pores or occasional breakouts."
+      icon: <Sun size={20} className="quiz-opt-icon" />,
+      title: "Oily & Shine-Prone",
+      desc: "Midday shine, enlarged pores, or occasional oil-related congestion."
     },
     {
       id: "combination",
+      icon: <Leaf size={20} className="quiz-opt-icon" />,
       title: "Combination Skin",
-      desc: "Oily T-zone (forehead, nose) with drier or normal cheeks."
+      desc: "Oily T-zone (forehead, nose, chin) paired with normal or drier cheeks."
     },
     {
       id: "sensitive",
+      icon: <Heart size={20} className="quiz-opt-icon" />,
       title: "Sensitive & Reactive",
-      desc: "Flushes easily, prone to redness, stinging, or ingredient reactions."
-    },
-    {
-      id: "normal",
-      title: "Balanced / Normal",
-      desc: "Generally comfortable with minimal oiliness or dry patches."
+      desc: "Easily flushes red, stings with strong actives, requires calming care."
     }
   ];
 
   const concernOptions = [
     {
       id: "hydration",
-      title: "Deep Cellular Hydration",
-      desc: "Plumpness, bounce, and eliminating parched dullness."
-    },
-    {
-      id: "anti-aging",
-      title: "Firmness & Youthful Elasticity",
-      desc: "Smoothing fine lines, supporting collagen, and evening skin tone."
-    },
-    {
-      id: "blemish",
-      title: "Pore Refining & Clarity",
-      desc: "Balancing excess sebum and smoothing texture."
+      icon: <Droplets size={20} className="quiz-opt-icon" />,
+      title: "Deep Moisture & Plumpness",
+      desc: "Eliminate dry tightness for supple, bouncy, all-day cellular moisture."
     },
     {
       id: "glow",
-      title: "Lit-From-Within Radiance",
-      desc: "Awakening tired complexions with natural antioxidant glow."
+      icon: <Sparkles size={20} className="quiz-opt-icon" />,
+      title: "Radiance & Healthy Glow",
+      desc: "Awaken dull complexions and restore a natural, lit-from-within luminosity."
+    },
+    {
+      id: "blemish",
+      icon: <ShieldCheck size={20} className="quiz-opt-icon" />,
+      title: "Pore Clarity & Oil Control",
+      desc: "Smooth uneven texture, balance sebum production, and soothe breakouts."
+    },
+    {
+      id: "anti-aging",
+      icon: <Leaf size={20} className="quiz-opt-icon" />,
+      title: "Firmness & Youthful Elasticity",
+      desc: "Fortify collagen resilience, soften fine lines, and protect against free radicals."
     }
   ];
 
   const routineStyleOptions = [
     {
       id: "minimal",
-      title: "Mindful Minimalist (2-Step)",
-      desc: "Essential Cleanse + Nourishing Barrier. Quick and effortless for busy mornings."
+      badge: "2 Steps",
+      title: "Mindful Minimalist",
+      desc: "Cleanse + Deep Moisture Barrier. Fast, effortless, and effective for busy mornings."
     },
     {
       id: "balanced",
-      title: "Balanced Daily Ritual (3-Step)",
-      desc: "Cleanse + Targeted Serum + Barrier Cream. The quintessential dermatologist standard."
+      badge: "3 Steps",
+      title: "Balanced Daily Standard",
+      desc: "Cleanse + Targeted Active Serum + Barrier Cream. The quintessential dermatologist regimen."
     },
     {
       id: "luxury",
-      title: "Complete Apothecary Luxury (4-Step)",
-      desc: "Cleanse + Botanical Hydrosol + Active Serum + Elixir Oil. Maximum transformative indulgence."
+      badge: "4 Steps",
+      title: "Complete Apothecary Luxury",
+      desc: "Cleanse + Botanical Hydrosol + Active Serum + Elixir Oil. Maximum transformative care."
     }
   ];
 
@@ -127,8 +144,8 @@ function RoutineQuiz() {
       addToCart(s.product, 1);
     });
     showToast(
-      "Personalized Ritual Added!",
-      `All ${result.steps.length} formulas added to your bag.`,
+      "Personalized Regimen Added!",
+      `All ${result.steps.length} botanical formulas added to your bag.`,
       "success"
     );
   };
@@ -140,151 +157,183 @@ function RoutineQuiz() {
   };
 
   return (
-    <main className="quiz-page-wrapper">
-      <div className="quiz-container">
+    <main className="quiz-page">
+      <div className="quiz-wrapper">
         {step < 4 ? (
-          <>
+          <div className="quiz-card-box">
             {/* Header */}
-            <div className="quiz-header">
+            <div className="quiz-header-area">
               <span className="section-overhead-tag">
-                <Sparkles size={14} /> BOTANICAL CONSULTATION
+                <Sparkles size={14} /> SKINCARE CONSULTATION
               </span>
-              <h1>Find Your Ideal Skincare Ritual</h1>
-              <p>
-                Answer 3 quick questions to receive a scientifically paired regimen tailored to your skin’s biological profile.
+              <h1 className="quiz-main-title">Find Your Personalized Ritual</h1>
+              <p className="quiz-main-subtitle">
+                Answer 3 simple questions to let our botanical algorithm identify your skin's ideal daily regimen.
               </p>
 
-              {/* Progress Indicator */}
-              <div className="quiz-progress-bar">
+              {/* Progress Bar */}
+              <div className="quiz-progress-track">
                 <div
-                  className="quiz-progress-fill"
+                  className="quiz-progress-indicator"
                   style={{ width: `${(step / 3) * 100}%` }}
                 ></div>
               </div>
-              <span className="quiz-step-count">Step {step} of 3</span>
+              <div className="quiz-step-label">
+                <span>Step {step} of 3</span>
+                <span className="step-topic">
+                  {step === 1 && "Skin Profile"}
+                  {step === 2 && "Primary Goal"}
+                  {step === 3 && "Ritual Preference"}
+                </span>
+              </div>
             </div>
 
-            {/* Step 1: Skin Type */}
+            {/* STEP 1 */}
             {step === 1 && (
-              <div className="quiz-step-card animate-fade-in">
-                <h2>What best describes your skin’s current state?</h2>
-                <div className="quiz-options-grid">
+              <div className="quiz-step-content">
+                <h2 className="quiz-question-heading">
+                  How does your skin typically feel throughout the day?
+                </h2>
+                <div className="quiz-options-container">
                   {skinTypeOptions.map((opt) => (
                     <button
                       key={opt.id}
-                      className={`quiz-option-btn ${
+                      className={`quiz-card-option ${
                         answers.skinType === opt.id ? "selected" : ""
                       }`}
                       onClick={() => handleSelectSkinType(opt.id)}
                     >
-                      <div className="option-title-row">
-                        <h3>{opt.title}</h3>
-                        <ArrowRight size={16} className="opt-arrow" />
+                      <div className="option-icon-box">{opt.icon}</div>
+                      <div className="option-text-group">
+                        <strong className="option-title">{opt.title}</strong>
+                        <p className="option-desc">{opt.desc}</p>
                       </div>
-                      <p>{opt.desc}</p>
+                      <ArrowRight size={16} className="option-chevron" />
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Step 2: Main Concern */}
+            {/* STEP 2 */}
             {step === 2 && (
-              <div className="quiz-step-card animate-fade-in">
-                <h2>What is your primary skincare goal?</h2>
-                <div className="quiz-options-grid">
+              <div className="quiz-step-content">
+                <h2 className="quiz-question-heading">
+                  What is your primary skincare focus right now?
+                </h2>
+                <div className="quiz-options-container">
                   {concernOptions.map((opt) => (
                     <button
                       key={opt.id}
-                      className={`quiz-option-btn ${
+                      className={`quiz-card-option ${
                         answers.concern === opt.id ? "selected" : ""
                       }`}
                       onClick={() => handleSelectConcern(opt.id)}
                     >
-                      <div className="option-title-row">
-                        <h3>{opt.title}</h3>
-                        <ArrowRight size={16} className="opt-arrow" />
+                      <div className="option-icon-box">{opt.icon}</div>
+                      <div className="option-text-group">
+                        <strong className="option-title">{opt.title}</strong>
+                        <p className="option-desc">{opt.desc}</p>
                       </div>
-                      <p>{opt.desc}</p>
+                      <ArrowRight size={16} className="option-chevron" />
                     </button>
                   ))}
                 </div>
 
-                <button className="quiz-back-btn" onClick={() => setStep(1)}>
-                  <ArrowLeft size={16} />
-                  <span>Back to Step 1</span>
-                </button>
+                <div className="quiz-nav-footer">
+                  <button className="quiz-back-button" onClick={() => setStep(1)}>
+                    <ArrowLeft size={15} />
+                    <span>Back to Skin Type</span>
+                  </button>
+                </div>
               </div>
             )}
 
-            {/* Step 3: Routine Style */}
+            {/* STEP 3 */}
             {step === 3 && (
-              <div className="quiz-step-card animate-fade-in">
-                <h2>How many ritual steps feel right for your daily lifestyle?</h2>
-                <div className="quiz-options-grid">
+              <div className="quiz-step-content">
+                <h2 className="quiz-question-heading">
+                  How many steps do you prefer in your daily ritual?
+                </h2>
+                <div className="quiz-options-container">
                   {routineStyleOptions.map((opt) => (
                     <button
                       key={opt.id}
-                      className={`quiz-option-btn ${
+                      className={`quiz-card-option ${
                         answers.routineStyle === opt.id ? "selected" : ""
                       }`}
                       onClick={() => handleSelectStyle(opt.id)}
                     >
-                      <div className="option-title-row">
-                        <h3>{opt.title}</h3>
-                        <ArrowRight size={16} className="opt-arrow" />
+                      <div className="option-badge-wrap">
+                        <span className="routine-badge">{opt.badge}</span>
                       </div>
-                      <p>{opt.desc}</p>
+                      <div className="option-text-group">
+                        <strong className="option-title">{opt.title}</strong>
+                        <p className="option-desc">{opt.desc}</p>
+                      </div>
+                      <ArrowRight size={16} className="option-chevron" />
                     </button>
                   ))}
                 </div>
 
-                <button className="quiz-back-btn" onClick={() => setStep(2)}>
-                  <ArrowLeft size={16} />
-                  <span>Back to Step 2</span>
-                </button>
+                <div className="quiz-nav-footer">
+                  <button className="quiz-back-button" onClick={() => setStep(2)}>
+                    <ArrowLeft size={15} />
+                    <span>Back to Goals</span>
+                  </button>
+                </div>
               </div>
             )}
-          </>
+          </div>
         ) : (
-          /* Step 4: Personalized Results Screen */
-          <div className="quiz-results-card animate-fade-in">
-            <div className="results-celebration-head">
+          /* STEP 4: Beautiful Results */
+          <div className="quiz-results-container">
+            <div className="results-hero">
               <span className="section-overhead-tag">
-                <Sparkles size={14} /> YOUR CUSTOM BOTANICAL PRESCRIPTION
+                <Sparkles size={14} /> YOUR CUSTOM PRESCRIPTION
               </span>
-              <h1>Your Harmonized Skincare Ritual</h1>
-              <p>
-                Based on your skin profile, our apothecary formulators recommend this synergistic regimen to target{" "}
-                <strong>{answers.concern}</strong> while maintaining <strong>{answers.skinType}</strong> barrier health.
+              <h1 className="results-heading">Your Synergistic Botanical Ritual</h1>
+              <p className="results-subheading">
+                Based on your selections, our apothecary formulators matched these harmonious formulas
+                to nurture your skin barrier and deliver noticeable radiant balance.
               </p>
+
+              <div className="results-tags-summary">
+                <span className="result-pill">Skin Type: {answers.skinType}</span>
+                <span className="result-pill">Primary Goal: {answers.concern}</span>
+                <span className="result-pill">Routine Style: {answers.routineStyle}</span>
+              </div>
             </div>
 
-            {/* Steps Timeline / Cards */}
-            <div className="matched-steps-grid">
+            {/* Matched Steps Cards */}
+            <div className="results-steps-grid">
               {result.steps.map((s, index) => (
-                <div key={index} className="matched-step-card">
-                  <div className="matched-step-header">
-                    <span className="step-badge">STEP {s.stepNumber}</span>
-                    <h4>{s.stepName}</h4>
+                <div key={index} className="result-step-card">
+                  <div className="step-card-header">
+                    <span className="step-counter">STEP 0{s.stepNumber}</span>
+                    <h3 className="step-category-name">{s.stepName}</h3>
                   </div>
 
-                  <div className="matched-product-body">
-                    <img
-                      src={s.product.image}
-                      alt={s.product.name}
-                      className="matched-prod-img"
-                    />
-                    <div className="matched-prod-info">
-                      <span className="matched-cat">{s.product.category}</span>
-                      <h3>
+                  <div className="step-card-body">
+                    <div className="step-img-wrap">
+                      <img
+                        src={s.product.image}
+                        alt={s.product.name}
+                        className="step-product-img"
+                      />
+                    </div>
+                    <div className="step-product-details">
+                      <span className="step-product-cat">{s.product.category}</span>
+                      <h4 className="step-product-title">
                         <Link to={`/product/${s.product.id}`}>{s.product.name}</Link>
-                      </h3>
-                      <p className="matched-desc">{s.description}</p>
-                      <div className="matched-pricing">
-                        <strong>{formatPrice(s.product.priceUsd)}</strong>
-                        <span className="rating-mini">
-                          <Star size={12} className="star-filled" />
+                      </h4>
+                      <p className="step-product-desc">{s.description}</p>
+                      <div className="step-product-meta">
+                        <strong className="step-product-price">
+                          {formatPrice(s.product.priceUsd)}
+                        </strong>
+                        <span className="step-rating">
+                          <Star size={13} className="star-icon-filled" />
                           {s.product.rating}
                         </span>
                       </div>
@@ -294,49 +343,53 @@ function RoutineQuiz() {
               ))}
             </div>
 
-            {/* Bundle Offer Summary Banner */}
-            <div className="bundle-offer-card">
-              <div className="bundle-offer-text">
-                <span className="bundle-tag">EXCLUSIVE RITUAL BUNDLE</span>
-                <h3>Order Your Complete {result.steps.length}-Step Regimen</h3>
-                <p>
-                  Receive an immediate <strong>15% bundle privilege discount</strong> plus complimentary express shipping.
+            {/* Bundle Offer Banner */}
+            <div className="results-bundle-banner">
+              <div className="bundle-banner-content">
+                <span className="bundle-pill">EXCLUSIVE PRIVILEGE BUNDLE</span>
+                <h3 className="bundle-title">
+                  Complete {result.steps.length}-Step Ritual Set
+                </h3>
+                <p className="bundle-desc">
+                  Enjoy an automatic <strong>15% bundle savings</strong> plus complimentary express delivery
+                  when ordering your complete personalized regimen together.
                 </p>
-                <div className="bundle-price-row">
-                  <span className="bundle-original-price">
+                <div className="bundle-pricing-row">
+                  <span className="bundle-strikethrough">
                     {formatPrice(result.totalOriginalUsd)}
                   </span>
-                  <span className="bundle-discounted-price">
+                  <strong className="bundle-current-price">
                     {formatPrice(result.bundleUsd)}
-                  </span>
-                  <span className="savings-badge">
-                    Save {formatPrice(result.savingsUsd)} (15% OFF)
+                  </strong>
+                  <span className="bundle-savings-badge">
+                    You Save {formatPrice(result.savingsUsd)} (15% OFF)
                   </span>
                 </div>
               </div>
 
-              <div className="bundle-action-box">
+              <div className="bundle-banner-action">
                 <button
                   onClick={handleAddBundleToBag}
                   className="btn-primary-filled add-bundle-btn"
                 >
-                  <ShoppingBag size={18} />
+                  <ShoppingBag size={17} />
                   <span>Add Entire Ritual to Bag</span>
                 </button>
-                <Link to="/cart" className="view-cart-bundle-link">
-                  Proceed to Bag & Checkout →
+                <Link to="/cart" className="view-cart-text-link">
+                  View Shopping Bag →
                 </Link>
               </div>
             </div>
 
-            <div className="results-footer-bar">
-              <button onClick={handleRetake} className="btn-secondary-outlined retake-btn">
-                <RotateCcw size={16} />
+            {/* Results Footer Actions */}
+            <div className="results-bottom-bar">
+              <button onClick={handleRetake} className="btn-secondary-outlined retake-quiz-btn">
+                <RotateCcw size={15} />
                 <span>Retake Consultation</span>
               </button>
-              <div className="guarantee-mini">
+              <div className="results-guarantee-note">
                 <ShieldCheck size={16} />
-                <span>Protected by our 30-Day Radiant Skin Guarantee</span>
+                <span>Backed by our 30-Day Radiant Skin Guarantee</span>
               </div>
             </div>
           </div>

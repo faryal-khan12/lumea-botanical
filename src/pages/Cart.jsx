@@ -10,7 +10,9 @@ import {
   Tag,
   CheckCircle2,
   Sparkles,
-  X
+  X,
+  Plus,
+  Minus
 } from "lucide-react";
 
 function Cart() {
@@ -48,31 +50,32 @@ function Cart() {
     }
   };
 
-  // Free shipping calculation
   const amountAwayFromFree = Math.max(0, freeShippingThresholdUsd - cartSubtotalUsd);
   const freeShippingProgress = Math.min(100, (cartSubtotalUsd / freeShippingThresholdUsd) * 100);
 
   if (cart.length === 0) {
     return (
-      <main className="cart-page-empty">
-        <div className="empty-cart-card">
-          <div className="empty-icon-wrap">
-            <ShoppingBag size={48} className="empty-bag-icon" />
-          </div>
-          <h1>Your Shopping Bag is Empty</h1>
-          <p>
-            Your skincare journey begins with a single mindful ritual. Explore our
-            pure botanical formulations or take our personalized consultation quiz.
-          </p>
-          <div className="empty-actions-row">
-            <Link to="/shop" className="btn-primary-filled">
-              <span>Explore Collection</span>
-              <ArrowRight size={16} />
-            </Link>
-            <Link to="/quiz" className="btn-secondary-outlined">
-              <Sparkles size={16} />
-              <span>Take Routine Quiz</span>
-            </Link>
+      <main className="cart-page">
+        <div className="cart-empty-container">
+          <div className="empty-cart-card">
+            <div className="empty-cart-icon-wrap">
+              <ShoppingBag size={44} className="empty-bag-icon" />
+            </div>
+            <h1 className="empty-cart-title">Your Shopping Bag is Empty</h1>
+            <p className="empty-cart-desc">
+              Your skincare journey begins with a single mindful choice. Explore our
+              cold-pressed botanical collection or take our personalized consultation quiz.
+            </p>
+            <div className="empty-cart-actions">
+              <Link to="/shop" className="btn-primary-filled">
+                <span>Discover Products</span>
+                <ArrowRight size={15} />
+              </Link>
+              <Link to="/quiz" className="btn-secondary-outlined">
+                <Sparkles size={15} />
+                <span>Take Skincare Consultation</span>
+              </Link>
+            </div>
           </div>
         </div>
       </main>
@@ -80,216 +83,270 @@ function Cart() {
   }
 
   return (
-    <main className="cart-page-full">
-      {/* Page Header */}
-      <section className="cart-hero-header">
-        <span className="section-overhead-tag">YOUR BOTANICAL SELECTION</span>
-        <h1>Shopping Bag ({cartTotalCount} items)</h1>
-      </section>
-
-      {/* Free Shipping Progress Meter */}
-      <div className="free-shipping-progress-banner">
-        <div className="shipping-progress-text">
-          <Truck size={20} className="shipping-icon" />
-          {isFreeShipping ? (
-            <span>
-              <strong>Congratulations!</strong> You have unlocked <strong>Free Express Delivery</strong>.
-            </span>
-          ) : (
-            <span>
-              Add <strong>{formatPrice(amountAwayFromFree)}</strong> more to unlock <strong>Complimentary Express Shipping</strong>!
-            </span>
-          )}
+    <main className="cart-page">
+      <div className="cart-container">
+        {/* Page Header */}
+        <div className="cart-header">
+          <span className="section-overhead-tag">YOUR BOTANICAL BAG</span>
+          <h1 className="cart-heading">Review Bag ({cartTotalCount} {cartTotalCount === 1 ? "Item" : "Items"})</h1>
         </div>
-        <div className="progress-bar-track">
-          <div
-            className="progress-bar-fill"
-            style={{ width: `${freeShippingProgress}%` }}
-          ></div>
-        </div>
-      </div>
 
-      {/* Main Cart Grid */}
-      <div className="cart-layout-grid">
-        {/* Items Column */}
-        <div className="cart-items-column">
-          <div className="cart-table-header">
-            <span>Product Ritual</span>
-            <span>Quantity</span>
-            <span>Subtotal</span>
+        {/* Free Shipping Progress Meter */}
+        <div className="cart-shipping-banner">
+          <div className="shipping-banner-info">
+            <div className="shipping-icon-wrap">
+              <Truck size={18} />
+            </div>
+            <div className="shipping-banner-text">
+              {isFreeShipping ? (
+                <span>
+                  <strong>Complimentary Express Shipping Unlocked!</strong> Your order qualifies for free delivery.
+                </span>
+              ) : (
+                <span>
+                  Add <strong>{formatPrice(amountAwayFromFree)}</strong> more to unlock <strong>Free Express Delivery</strong>!
+                </span>
+              )}
+            </div>
           </div>
+          <div className="shipping-progress-track">
+            <div
+              className="shipping-progress-fill"
+              style={{ width: `${freeShippingProgress}%` }}
+            ></div>
+          </div>
+        </div>
 
-          <div className="cart-items-list">
-            {cart.map((item) => (
-              <div key={item.product.id} className="cart-item-row">
-                {/* Media & Title */}
-                <div className="cart-item-info">
-                  <Link to={`/product/${item.product.id}`}>
-                    <img
-                      src={item.product.image}
-                      alt={item.product.name}
-                      className="cart-thumb-img"
-                    />
-                  </Link>
-                  <div className="cart-meta-col">
-                    <span className="cart-cat-text">{item.product.category}</span>
-                    <h3 className="cart-item-name">
-                      <Link to={`/product/${item.product.id}`}>
-                        {item.product.name}
+        {/* Main Grid: Items + Order Summary */}
+        <div className="cart-layout-grid">
+          {/* Left Column: Structured Item Blocks */}
+          <div className="cart-items-column">
+            <div className="cart-items-list-header">
+              <span className="items-list-title">Selected Formulas</span>
+              <span className="items-list-count">{cart.length} unique {cart.length === 1 ? "product" : "products"}</span>
+            </div>
+
+            <div className="cart-blocks-list">
+              {cart.map((item, index) => {
+                const itemNumber = String(index + 1).padStart(2, "0");
+                const itemTotal = item.product.priceUsd * item.quantity;
+
+                return (
+                  <div key={item.product.id} className="cart-product-block">
+                    {/* Block Header */}
+                    <div className="cart-block-top">
+                      <div className="cart-block-index-wrap">
+                        <span className="cart-block-index">ITEM {itemNumber}</span>
+                        <span className="cart-block-category">{item.product.category}</span>
+                      </div>
+                      <button
+                        className="cart-remove-item-btn"
+                        onClick={() => removeFromCart(item.product.id)}
+                        title="Remove product"
+                        aria-label={`Remove ${item.product.name}`}
+                      >
+                        <Trash2 size={15} />
+                        <span>Remove</span>
+                      </button>
+                    </div>
+
+                    {/* Block Content */}
+                    <div className="cart-block-body">
+                      {/* Thumbnail */}
+                      <Link
+                        to={`/product/${item.product.id}`}
+                        className="cart-block-image-link"
+                      >
+                        <img
+                          src={item.product.image}
+                          alt={item.product.name}
+                          className="cart-block-thumb"
+                        />
                       </Link>
-                    </h3>
-                    <span className="cart-unit-price">
-                      {formatPrice(item.product.priceUsd)}
-                    </span>
-                    <button
-                      className="cart-remove-mobile-btn"
-                      onClick={() => removeFromCart(item.product.id)}
-                    >
-                      <Trash2 size={14} />
-                      <span>Remove</span>
-                    </button>
-                  </div>
-                </div>
 
-                {/* Quantity Stepper */}
-                <div className="cart-item-qty">
-                  <div className="quantity-stepper">
-                    <button
-                      onClick={() => updateQuantity(item.product.id, -1)}
-                      aria-label="Decrease quantity"
-                    >
-                      -
-                    </button>
-                    <span>{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(item.product.id, 1)}
-                      aria-label="Increase quantity"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
+                      {/* Product Details */}
+                      <div className="cart-block-info">
+                        <h2 className="cart-block-name">
+                          <Link to={`/product/${item.product.id}`}>
+                            {item.product.name}
+                          </Link>
+                        </h2>
 
-                {/* Item Total & Desktop Delete */}
-                <div className="cart-item-total">
-                  <span className="item-calculated-price">
-                    {formatPrice(item.product.priceUsd * item.quantity)}
-                  </span>
-                  <button
-                    className="cart-delete-desktop-btn"
-                    onClick={() => removeFromCart(item.product.id)}
-                    title="Remove item"
-                    aria-label="Remove item"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+                        {item.product.volume && (
+                          <span className="cart-block-volume">
+                            Size: {item.product.volume}
+                          </span>
+                        )}
 
-          <div className="cart-items-footer-actions">
-            <Link to="/shop" className="continue-shopping-link">
-              ← Continue Discovering Products
-            </Link>
-            <button onClick={clearCart} className="btn-text-clear">
-              Clear Entire Bag
-            </button>
-          </div>
-        </div>
+                        <p className="cart-block-desc">
+                          {item.product.description}
+                        </p>
 
-        {/* Order Summary Sidebar */}
-        <div className="cart-summary-column">
-          <div className="summary-card">
-            <h3>Order Summary</h3>
+                        {item.product.keyIngredients && item.product.keyIngredients.length > 0 && (
+                          <div className="cart-block-ingredients">
+                            <span className="ingredients-label">Key Actives:</span>
+                            {item.product.keyIngredients.slice(0, 3).map((ing, i) => (
+                              <span key={i} className="ingredient-chip">
+                                {ing}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-            {/* Promo Code Box */}
-            <div className="promo-code-container">
-              {appliedPromo ? (
-                <div className="applied-promo-tag">
-                  <div className="applied-promo-left">
-                    <Tag size={16} />
-                    <div>
-                      <strong>{appliedPromo.code}</strong>
-                      <p>{appliedPromo.description}</p>
+                    {/* Block Footer / Pricing & Controls */}
+                    <div className="cart-block-bottom">
+                      <div className="cart-block-pricing">
+                        <span className="unit-price-label">Unit Price:</span>
+                        <span className="unit-price-val">
+                          {formatPrice(item.product.priceUsd)}
+                        </span>
+                      </div>
+
+                      <div className="cart-stepper-wrap">
+                        <span className="stepper-label">Qty:</span>
+                        <div className="cart-stepper">
+                          <button
+                            onClick={() => updateQuantity(item.product.id, -1)}
+                            aria-label="Decrease quantity"
+                            className="stepper-btn"
+                          >
+                            <Minus size={13} />
+                          </button>
+                          <span className="stepper-value">{item.quantity}</span>
+                          <button
+                            onClick={() => updateQuantity(item.product.id, 1)}
+                            aria-label="Increase quantity"
+                            className="stepper-btn"
+                          >
+                            <Plus size={13} />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="cart-block-subtotal">
+                        <span className="subtotal-label">Subtotal:</span>
+                        <span className="subtotal-val">{formatPrice(itemTotal)}</span>
+                      </div>
                     </div>
                   </div>
-                  <button
-                    onClick={removePromoCode}
-                    className="remove-promo-btn"
-                    title="Remove discount"
-                    aria-label="Remove promo code"
-                  >
-                    <X size={16} />
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleApplyPromo} className="promo-input-form">
-                  <div className="promo-input-wrapper">
-                    <Tag size={16} className="promo-icon" />
-                    <input
-                      type="text"
-                      placeholder="Promo code (e.g. LUMEA20)"
-                      value={promoInput}
-                      onChange={(e) => {
-                        setPromoInput(e.target.value);
-                        setPromoError("");
-                      }}
-                    />
+                );
+              })}
+            </div>
+
+            {/* Cart Bottom Actions */}
+            <div className="cart-bottom-actions">
+              <Link to="/shop" className="btn-continue-shopping">
+                ← Continue Browsing Collection
+              </Link>
+              <button onClick={clearCart} className="btn-clear-cart">
+                <Trash2 size={14} />
+                <span>Clear Bag</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Order Summary Sidebar */}
+          <div className="cart-summary-column">
+            <div className="order-summary-card">
+              <h2 className="summary-title">Order Summary</h2>
+
+              {/* Promo Code Form */}
+              <div className="cart-promo-section">
+                {appliedPromo ? (
+                  <div className="cart-applied-promo">
+                    <div className="applied-promo-info">
+                      <Tag size={15} className="promo-tag-icon" />
+                      <div>
+                        <strong>{appliedPromo.code}</strong>
+                        <span>{appliedPromo.description}</span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={removePromoCode}
+                      className="promo-remove-btn"
+                      title="Remove promo"
+                      aria-label="Remove promo code"
+                    >
+                      <X size={15} />
+                    </button>
                   </div>
-                  <button type="submit" className="promo-apply-btn">
-                    Apply
-                  </button>
-                </form>
-              )}
-              {promoError && <p className="promo-error-msg">{promoError}</p>}
-            </div>
-
-            {/* Breakdown */}
-            <div className="summary-breakdown-list">
-              <div className="breakdown-row">
-                <span>Subtotal</span>
-                <span>{formatPrice(cartSubtotalUsd)}</span>
+                ) : (
+                  <form onSubmit={handleApplyPromo} className="promo-form">
+                    <div className="promo-input-box">
+                      <Tag size={15} className="promo-input-icon" />
+                      <input
+                        type="text"
+                        placeholder="Promo code (e.g. LUMEA20)"
+                        value={promoInput}
+                        onChange={(e) => {
+                          setPromoInput(e.target.value);
+                          setPromoError("");
+                        }}
+                      />
+                    </div>
+                    <button type="submit" className="promo-submit-btn">
+                      Apply
+                    </button>
+                  </form>
+                )}
+                {promoError && <p className="promo-error">{promoError}</p>}
+                {!appliedPromo && (
+                  <p className="promo-tip">
+                    Tip: Use code <strong>LUMEA20</strong> for 20% off your order.
+                  </p>
+                )}
               </div>
 
-              {discountAmountUsd > 0 && (
-                <div className="breakdown-row discount-row">
-                  <span>
-                    Special Discount ({appliedPromo.percent}%)
-                  </span>
-                  <span>-{formatPrice(discountAmountUsd)}</span>
+              {/* Cost Breakdown */}
+              <div className="summary-breakdown">
+                <div className="summary-row">
+                  <span>Bag Subtotal</span>
+                  <span>{formatPrice(cartSubtotalUsd)}</span>
                 </div>
-              )}
 
-              <div className="breakdown-row">
-                <span>Estimated Shipping</span>
-                <span>{shippingUsd === 0 ? "FREE" : formatPrice(shippingUsd)}</span>
+                {discountAmountUsd > 0 && (
+                  <div className="summary-row discount">
+                    <span>Special Discount ({appliedPromo?.percent}%)</span>
+                    <span>-{formatPrice(discountAmountUsd)}</span>
+                  </div>
+                )}
+
+                <div className="summary-row">
+                  <span>Estimated Shipping</span>
+                  <span>{shippingUsd === 0 ? "FREE" : formatPrice(shippingUsd)}</span>
+                </div>
+
+                <div className="summary-row grand-total">
+                  <span>Estimated Total</span>
+                  <span className="total-amount">{formatPrice(grandTotalUsd)}</span>
+                </div>
               </div>
 
-              <div className="breakdown-row total-row">
-                <strong>Grand Total</strong>
-                <strong>{formatPrice(grandTotalUsd)}</strong>
-              </div>
-            </div>
+              {/* Checkout Button */}
+              <button
+                onClick={() => setIsCheckoutOpen(true)}
+                className="btn-primary-filled cart-checkout-btn"
+              >
+                <span>Proceed to Checkout</span>
+                <ArrowRight size={16} />
+              </button>
 
-            {/* Checkout Action */}
-            <button
-              onClick={() => setIsCheckoutOpen(true)}
-              className="btn-primary-filled checkout-trigger-btn"
-            >
-              <span>Proceed to Checkout</span>
-              <ArrowRight size={18} />
-            </button>
-
-            {/* Guarantee Signals */}
-            <div className="summary-perks">
-              <div className="summary-perk-item">
-                <ShieldCheck size={18} />
-                <span>256-Bit SSL Encrypted & Secure Checkout</span>
-              </div>
-              <div className="summary-perk-item">
-                <CheckCircle2 size={18} />
-                <span>30-Day Happiness Guarantee & Easy Returns</span>
+              {/* Trust & Guarantee Badges */}
+              <div className="cart-guarantee-list">
+                <div className="guarantee-item">
+                  <ShieldCheck size={16} className="guarantee-icon" />
+                  <span>256-Bit SSL Encrypted & Secure Checkout</span>
+                </div>
+                <div className="guarantee-item">
+                  <CheckCircle2 size={16} className="guarantee-icon" />
+                  <span>30-Day Radiant Skin Guarantee & Free Returns</span>
+                </div>
+                <div className="guarantee-item">
+                  <Truck size={16} className="guarantee-icon" />
+                  <span>Dispatches within 24 hours in amber glass packaging</span>
+                </div>
               </div>
             </div>
           </div>
